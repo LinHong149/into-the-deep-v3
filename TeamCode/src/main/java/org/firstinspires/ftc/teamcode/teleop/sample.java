@@ -198,10 +198,10 @@ public class sample extends LinearOpMode{
             } else {
                 //TODO trig calculation for rotation
 
-                frontLeftPower = rx / 3;
-                backLeftPower = rx / 3;
-                frontRightPower = -rx / 3;
-                backRightPower = -rx / 3;
+                frontLeftPower = rx / 1.5;
+                backLeftPower = rx / 1.5;
+                frontRightPower = -rx / 1.5;
+                backRightPower = -rx / 1.5;
 
                 FL.setPower(frontLeftPower);
                 FR.setPower(frontRightPower);
@@ -215,11 +215,11 @@ public class sample extends LinearOpMode{
                 slideTarget += (y > 0 && slideTarget < slideMax) ? 30 * y / 1.5 : 0;
                 slideTarget += (y < 0 && slideTarget > 300) ? 30 * y / 1.5 : 0;
                 if (gamepad1.left_trigger > 0 && rotationPos >= 0) {
-                    rotationPos -= gamepad1.left_trigger / 60;
+                    rotationPos -= gamepad1.left_trigger / 20;
                     if (rotationPos < 0) rotationPos = 1; // Ensure upper bound
                 }
                 if (gamepad1.right_trigger > 0 && rotationPos <= 1) {
-                    rotationPos += gamepad1.right_trigger / 60;
+                    rotationPos += gamepad1.right_trigger / 20;
                     if (rotationPos > 1) rotationPos = 0; // Ensure lower bound
                 }
                 rotation.setPosition(rotationPos);
