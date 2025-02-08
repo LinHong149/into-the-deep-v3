@@ -26,10 +26,10 @@ public class MeepMeepSample {
                         .splineToSplineHeading(new Pose2d(-51,-53,Math.toRadians(45)),Math.toRadians(232)) //drop off sample 2
                         .setReversed(false)
                         .splineTo(new Vector2d(-56,-40),Math.toRadians(130)) // to third sample; rotation 0.95/1
-                        .setReversed(true)
-                        .splineTo(new Vector2d(-52,-53),Math.toRadians(225)) //drop off sample 3
-                        .setReversed(false)
-                        .splineTo(new Vector2d(-30,-11),Math.toRadians(0))
+//                        .setReversed(true)
+//                        .splineTo(new Vector2d(-52,-53),Math.toRadians(225)) //drop off sample 3
+//                        .setReversed(false)
+//                        .splineTo(new Vector2d(-30,-11),Math.toRadians(0))
 
                         .build());
 
