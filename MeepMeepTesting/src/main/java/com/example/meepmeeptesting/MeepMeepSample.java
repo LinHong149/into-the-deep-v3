@@ -16,14 +16,14 @@ public class MeepMeepSample {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .setDimensions(16.25, 17)
                 .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(new Pose2d(-38, -61, Math.toRadians(90)))
-                        .splineToLinearHeading(new Pose2d(-52, -53, Math.toRadians(45)), Math.toRadians(45)) //drop off pre loaded
+                        .splineToLinearHeading(new Pose2d(-52, -53, Math.toRadians(45)), Math.toRadians(225)) //drop off pre loaded
                         .splineTo(new Vector2d(-48,-40),Math.toRadians(90)) //to first sample; rotation 0.5
                         .setReversed(true)
                         .splineTo(new Vector2d(-52, -53),Math.toRadians(225)) //drop off sample 1
                         .setReversed(false)
                         .splineTo(new Vector2d(-53,-40),Math.toRadians(110)) //to second sample; rotation 0.75
                         .setReversed(true)
-                        .splineTo(new Vector2d(-52, -53),Math.toRadians(225)) //drop off sample 2
+                        .splineToSplineHeading(new Pose2d(-51,-53,Math.toRadians(45)),Math.toRadians(232)) //drop off sample 2
                         .setReversed(false)
                         .splineTo(new Vector2d(-56,-40),Math.toRadians(130)) // to third sample; rotation 0.95/1
                         .setReversed(true)
