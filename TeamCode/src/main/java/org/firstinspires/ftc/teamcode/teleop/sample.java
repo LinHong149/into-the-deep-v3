@@ -22,7 +22,7 @@ public class sample extends LinearOpMode{
     Servo rotation, wrist, claw,hangL,hangR;
 
     public double wristPar = 0.1, wristPerp = 0.62, wristOuttake = 0.82;
-    public double clawOpen = 0.27, clawClose = 0.75;
+    public double clawOpen = 0.27, clawClose = 0.65;
     public double rotationPos = 0.46;
     public double armDown = 30;
     public double armPar = 150, armUp = 1200;
@@ -31,13 +31,13 @@ public class sample extends LinearOpMode{
 
     //  ARM PID
     PIDFController armPIDF = new PIDFController(0,0,0, 0);
-    static double armP = 0.007, armI = 0, armD = 0, armF = 0;
+    static double armP = 0.008, armI = 0, armD = 0.0009, armF = 0;
     static double armTarget = 0.0;
 
     //  SLIDES PID
     PIDFController slidePIDF = new PIDFController(0,0,0, 0);
-    static double slideP = 0.0034, slideI = 0, slideD = 0, slideF = 0;
-    static double slidePE = 0.008, slideIE = 0, slideDE = 0, slideFE = 0;
+    static double slideP = 0.005, slideI = 0, slideD = 0.00018, slideF = 0;
+    static double slidePE = 0.008, slideIE = 0, slideDE = 0.00018, slideFE = 0;
     static double slideTarget = 0.0;
     double slidePower = 0.0;
 

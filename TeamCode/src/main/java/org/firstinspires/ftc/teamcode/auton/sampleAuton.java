@@ -31,7 +31,7 @@ import org.firstinspires.ftc.teamcode.teleop.sample;
 @Autonomous
 public class sampleAuton extends LinearOpMode{
     public double wristPar = 0.1, wristPerp = 0.62, wristOuttake = 0.85;
-    public double clawOpen = 0.25, clawClose = 0.75;
+    public double clawOpen = 0.25, clawClose = 0.71;
     public double rotationPos = 0.465;
     public double armDown = 30;
     public double armPar = 100, armUp = 1300, armHang = 700;
@@ -40,13 +40,13 @@ public class sampleAuton extends LinearOpMode{
 
     //  ARM PID
     PIDFController armPIDF = new PIDFController(0,0,0, 0);
-     double armP = 0.007, armI = 0, armD = 0, armF = 0;
+     double armP = 0.008, armI = 0, armD = 0.0009, armF = 0;
      double armTarget = 0.0;
 
     //  SLIDES PID
     PIDFController slidePIDF = new PIDFController(0,0,0, 0);
-     double slideP = 0.0034, slideI = 0, slideD = 0, slideF = 0;
-     double slidePE = 0.008, slideIE = 0, slideDE = 0, slideFE = 0;
+     double slideP = 0.005, slideI = 0, slideD = 0.00018, slideF = 0;
+     double slidePE = 0.008, slideIE = 0, slideDE = 0.00018, slideFE = 0;
      double slideTarget = 0.0;
     double slidePower = 0.0;
 
