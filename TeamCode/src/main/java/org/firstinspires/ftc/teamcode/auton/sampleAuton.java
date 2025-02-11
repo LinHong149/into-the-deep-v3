@@ -30,9 +30,9 @@ import org.firstinspires.ftc.teamcode.teleop.sample;
 @Config
 @Autonomous
 public class sampleAuton extends LinearOpMode{
-    public double wristPar = 0.1, wristPerp = 0.62, wristOuttake = 0.85;
-    public double clawOpen = 0.25, clawClose = 0.71;
-    public double rotationPos = 0.465;
+    public double wristPar = 0.1, wristPerp = 0.62, wristOuttake = 0.82;
+    public double clawOpen = 0.35, clawClose = 0.74;
+    public double rotationPos = 0.46;
     public double armDown = 30;
     public double armPar = 100, armUp = 1300, armHang = 700;
     public double slideRest = 300, slideIntaking = 600, slideOuttaking = 3000, slideHang = 800;
@@ -40,14 +40,14 @@ public class sampleAuton extends LinearOpMode{
 
     //  ARM PID
     PIDFController armPIDF = new PIDFController(0,0,0, 0);
-     double armP = 0.008, armI = 0, armD = 0.0009, armF = 0;
-     double armTarget = 0.0;
+    double armP = 0.008, armI = 0, armD = 0.0009, armF = 0;
+    double armTarget = 0.0;
 
     //  SLIDES PID
     PIDFController slidePIDF = new PIDFController(0,0,0, 0);
-     double slideP = 0.005, slideI = 0, slideD = 0.00018, slideF = 0;
-     double slidePE = 0.008, slideIE = 0, slideDE = 0.00018, slideFE = 0;
-     double slideTarget = 0.0;
+    double slideP = 0.005, slideI = 0, slideD = 0.00018, slideF = 0;
+    double slidePE = 0.008, slideIE = 0, slideDE = 0.00018, slideFE = 0;
+    double slideTarget = 0.0;
     double slidePower = 0.0;
 
     public enum Mode {
@@ -350,34 +350,34 @@ public class sampleAuton extends LinearOpMode{
 
 
         TrajectoryActionBuilder dropOffPreload = drive.actionBuilder(initialPose)
-                .splineToLinearHeading(new Pose2d(-54.5,-56.5,Math.toRadians(45)),Math.toRadians(45))
+                .splineToLinearHeading(new Pose2d(-52.5, -51.5, Math.toRadians(45)), Math.toRadians(261))
                 .waitSeconds(.2);
-        TrajectoryActionBuilder toFirstSample = drive.actionBuilder(new Pose2d(-54,-55,Math.toRadians(45)))
-                .splineTo(new Vector2d(-46,-38),Math.toRadians(90))
+        TrajectoryActionBuilder toFirstSample = drive.actionBuilder(new Pose2d(-52.5,-51.5,Math.toRadians(45)))
+                .splineTo(new Vector2d(-48.1,-40),Math.toRadians(90))
                 .waitSeconds(.1);
-        TrajectoryActionBuilder dropOffFirst = drive.actionBuilder(new Pose2d(-44,-40,Math.toRadians(90)))
+        TrajectoryActionBuilder dropOffFirst = drive.actionBuilder(new Pose2d(-48.1,-40,Math.toRadians(90)))
                 .setReversed(true)
-                .splineTo(new Vector2d(-54,-56),Math.toRadians(225))
+                .splineTo(new Vector2d(-51.5,-52.5),Math.toRadians(229.5))
                 .waitSeconds(.2);
-        TrajectoryActionBuilder toSecondSample = drive.actionBuilder(new Pose2d(-52,-53,Math.toRadians(45)))
+        TrajectoryActionBuilder toSecondSample = drive.actionBuilder(new Pose2d(-51.5,-52.5,Math.toRadians(49.5)))
                 .setReversed(false)
-                .splineTo(new Vector2d(-53,-35),Math.toRadians(103))
+                .splineToLinearHeading(new Pose2d(-61.5,-40,Math.toRadians(99)),Math.toRadians(107))
                 .waitSeconds(.1);
-        TrajectoryActionBuilder dropOffSecond = drive.actionBuilder(new Pose2d(-53,-40,Math.toRadians(105)))
+        TrajectoryActionBuilder dropOffSecond = drive.actionBuilder(new Pose2d(-61.5,-40,Math.toRadians(99)))
                 .setReversed(true)
-                .splineTo(new Vector2d(-54,-56),Math.toRadians(225))
+                .splineToLinearHeading(new Pose2d(-54,-50,Math.toRadians(48)),Math.toRadians(232))
                 .waitSeconds(.2);
-        TrajectoryActionBuilder toThirdSample = drive.actionBuilder(new Pose2d(-52,-53,Math.toRadians(45)))
+        TrajectoryActionBuilder toThirdSample = drive.actionBuilder(new Pose2d(-54,-50,Math.toRadians(48)))
                 .setReversed(false)
-                .splineTo(new Vector2d(-57.5,-31.5),Math.toRadians(128))
+                .splineToLinearHeading(new Pose2d(-61,-40, Math.toRadians(135)), Math.toRadians(55))
                 .waitSeconds(.1);
-        TrajectoryActionBuilder dropOffThird = drive.actionBuilder(new Pose2d(-56,-40,Math.toRadians(128)))
+        TrajectoryActionBuilder dropOffThird = drive.actionBuilder(new Pose2d(-61,-40,Math.toRadians(135)))
                 .setReversed(true)
-                .splineTo(new Vector2d(-54,-56),Math.toRadians(225))
+                .splineToLinearHeading(new Pose2d(-53.5,-51,Math.toRadians(48)), Math.toRadians(230))
                 .waitSeconds(.2);
-        TrajectoryActionBuilder park = drive.actionBuilder(new Pose2d(-52,-53,Math.toRadians(45)))
+        TrajectoryActionBuilder park = drive.actionBuilder(new Pose2d(-53.5,-51,Math.toRadians(48)))
                 .setReversed(false)
-                .splineTo(new Vector2d(-23,-8),Math.toRadians(0))
+                .splineTo(new Vector2d(-30,-11),Math.toRadians(0))
                 .waitSeconds(.1);
 
 
@@ -399,6 +399,14 @@ public class sampleAuton extends LinearOpMode{
         if (opModeIsActive()) {
             Actions.runBlocking(
                     new SequentialAction(
+
+                            new ParallelAction(
+                                    intakingSystem.intakingCloseClaw(),
+                                    armSlide.restToOuttaking(),
+                                    dropOffPreload.build()
+                            ),
+                            new SleepAction(.2)
+
 //                            dropOffPreload.build(),
 //                            toFirstSample.build(),
 //                            dropOffFirst.build(),
@@ -409,92 +417,92 @@ public class sampleAuton extends LinearOpMode{
 //                            park.build()
 
 //                            Preloaded scoring
-                            new ParallelAction(
-
-                                    intakingSystem.intakingCloseClaw(),
-                                    armSlide.restToOuttaking(),
-                                    dropOffPreload.build()
-                            ),
-                            intakingSystem.outtakingCloseClaw(),
-                            new SleepAction(.2),
-                            intakingSystem.outtakingOpenClaw(),
-                            new SleepAction(.3),
-                            intakingSystem.intakingOpenClaw(),
-                            armSlide.toRest(),
-                            intakingSystem.restCloseClaw(),
-
-//                        Grabbing sample 1 and scoring
-                            new ParallelAction(
-                                    intakingSystem.intakingOpenClaw(),
-                                    toFirstSample.build()
-
-                            ),
-                            new SleepAction(0.1),
-                            intakingSystem.intakingCloseClaw(),
-                            new SleepAction(0.3),
-                            intakingSystem.restCloseClaw(),
-                            new ParallelAction(
-                                    intakingSystem.intakingCloseClaw(),
-                                    armSlide.restToOuttaking(),
-                                    dropOffFirst.build()
-                            ),
-                            intakingSystem.outtakingCloseClaw(),
-                            new SleepAction(.2),
-                            intakingSystem.outtakingOpenClaw(),
-                            new SleepAction(.3),
-                            intakingSystem.intakingOpenClaw(),
-                            armSlide.toRest(),
-                            intakingSystem.restCloseClaw(),
-
-//                        Grabbing sample 2 and scoring
-                            new ParallelAction(
-                                    intakingSystem.intakingOpenClaw(),
-                                    toSecondSample.build()
-                            ),
-                            new SleepAction(0.1),
-                            intakingSystem.intakingCloseClaw(),
-                            new SleepAction(0.3),
-                            intakingSystem.restCloseClaw(),
-                            new ParallelAction(
-                                    intakingSystem.intakingCloseClaw(),
-                                    armSlide.restToOuttaking(),
-                                    dropOffSecond.build()
-                            ),
-                            intakingSystem.outtakingCloseClaw(),
-                            new SleepAction(.2),
-                            intakingSystem.outtakingOpenClaw(),
-                            new SleepAction(.3),
-                            intakingSystem.intakingOpenClaw(),
-                            armSlide.toRest(),
-                            intakingSystem.restCloseClaw(),
-
-//                        Grabbing sample 3 and scoring
-                            new ParallelAction(
-                                    intakingSystem.intakingOpenClaw(),
-                                    toThirdSample.build()
-                            ),
-                            new SleepAction(0.1),
-                            intakingSystem.intakingCloseClaw(),
-                            new SleepAction(0.3),
-                            intakingSystem.restCloseClaw(),
-                            new ParallelAction(
-                                    intakingSystem.intakingCloseClaw(),
-                                    armSlide.restToOuttaking(),
-                                    dropOffFirst.build()
-                            ),
-                            intakingSystem.outtakingCloseClaw(),
-                            new SleepAction(.2),
-                            intakingSystem.outtakingOpenClaw(),
-                            new SleepAction(.3),
-                            intakingSystem.intakingOpenClaw(),
-                            armSlide.toRest(),
-                            intakingSystem.restCloseClaw(),
-
-                            new ParallelAction(
-                                    armSlide.restToHang(),
-                                    intakingSystem.hang(),
-                                    park.build()
-                            )
+//                            new ParallelAction(
+//
+//                                    intakingSystem.intakingCloseClaw(),
+//                                    armSlide.restToOuttaking(),
+//                                    dropOffPreload.build()
+//                            ),
+//                            intakingSystem.outtakingCloseClaw(),
+//                            new SleepAction(.2),
+//                            intakingSystem.outtakingOpenClaw(),
+//                            new SleepAction(.3),
+//                            intakingSystem.intakingOpenClaw(),
+//                            armSlide.toRest(),
+//                            intakingSystem.restCloseClaw(),
+//
+////                        Grabbing sample 1 and scoring
+//                            new ParallelAction(
+//                                    intakingSystem.intakingOpenClaw(),
+//                                    toFirstSample.build()
+//
+//                            ),
+//                            new SleepAction(0.1),
+//                            intakingSystem.intakingCloseClaw(),
+//                            new SleepAction(0.3),
+//                            intakingSystem.restCloseClaw(),
+//                            new ParallelAction(
+//                                    intakingSystem.intakingCloseClaw(),
+//                                    armSlide.restToOuttaking(),
+//                                    dropOffFirst.build()
+//                            ),
+//                            intakingSystem.outtakingCloseClaw(),
+//                            new SleepAction(.2),
+//                            intakingSystem.outtakingOpenClaw(),
+//                            new SleepAction(.3),
+//                            intakingSystem.intakingOpenClaw(),
+//                            armSlide.toRest(),
+//                            intakingSystem.restCloseClaw(),
+//
+////                        Grabbing sample 2 and scoring
+//                            new ParallelAction(
+//                                    intakingSystem.intakingOpenClaw(),
+//                                    toSecondSample.build()
+//                            ),
+//                            new SleepAction(0.1),
+//                            intakingSystem.intakingCloseClaw(),
+//                            new SleepAction(0.3),
+//                            intakingSystem.restCloseClaw(),
+//                            new ParallelAction(
+//                                    intakingSystem.intakingCloseClaw(),
+//                                    armSlide.restToOuttaking(),
+//                                    dropOffSecond.build()
+//                            ),
+//                            intakingSystem.outtakingCloseClaw(),
+//                            new SleepAction(.2),
+//                            intakingSystem.outtakingOpenClaw(),
+//                            new SleepAction(.3),
+//                            intakingSystem.intakingOpenClaw(),
+//                            armSlide.toRest(),
+//                            intakingSystem.restCloseClaw(),
+//
+////                        Grabbing sample 3 and scoring
+//                            new ParallelAction(
+//                                    intakingSystem.intakingOpenClaw(),
+//                                    toThirdSample.build()
+//                            ),
+//                            new SleepAction(0.1),
+//                            intakingSystem.intakingCloseClaw(),
+//                            new SleepAction(0.3),
+//                            intakingSystem.restCloseClaw(),
+//                            new ParallelAction(
+//                                    intakingSystem.intakingCloseClaw(),
+//                                    armSlide.restToOuttaking(),
+//                                    dropOffFirst.build()
+//                            ),
+//                            intakingSystem.outtakingCloseClaw(),
+//                            new SleepAction(.2),
+//                            intakingSystem.outtakingOpenClaw(),
+//                            new SleepAction(.3),
+//                            intakingSystem.intakingOpenClaw(),
+//                            armSlide.toRest(),
+//                            intakingSystem.restCloseClaw(),
+//
+//                            new ParallelAction(
+//                                    armSlide.restToHang(),
+//                                    intakingSystem.hang(),
+//                                    park.build()
+//                            )
 
 
 

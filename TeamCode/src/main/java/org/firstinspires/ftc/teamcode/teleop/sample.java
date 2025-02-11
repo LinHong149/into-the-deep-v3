@@ -22,7 +22,7 @@ public class sample extends LinearOpMode{
     Servo rotation, wrist, claw,hangL,hangR;
 
     public double wristPar = 0.1, wristPerp = 0.62, wristOuttake = 0.82;
-    public double clawOpen = 0.27, clawClose = 0.65;
+    public double clawOpen = 0.3, clawClose = 0.74;
     public double rotationPos = 0.46;
     public double armDown = 30;
     public double armPar = 150, armUp = 1200;
@@ -198,10 +198,10 @@ public class sample extends LinearOpMode{
             } else {
                 //TODO trig calculation for rotation
 
-                frontLeftPower = rx / 1.5;
-                backLeftPower = rx / 1.5;
-                frontRightPower = -rx / 1.5;
-                backRightPower = -rx / 1.5;
+                frontLeftPower = rx /2;
+                backLeftPower = rx / 2;
+                frontRightPower = -rx / 2;
+                backRightPower = -rx / 2;
 
                 FL.setPower(frontLeftPower);
                 FR.setPower(frontRightPower);
@@ -215,11 +215,11 @@ public class sample extends LinearOpMode{
                 slideTarget += (y > 0 && slideTarget < slideMax) ? 30 * y / 1.5 : 0;
                 slideTarget += (y < 0 && slideTarget > 300) ? 30 * y / 1.5 : 0;
                 if (gamepad1.left_trigger > 0 && rotationPos >= 0) {
-                    rotationPos -= gamepad1.left_trigger / 20;
+                    rotationPos -= gamepad1.left_trigger / 40;
                     if (rotationPos < 0) rotationPos = 1; // Ensure upper bound
                 }
                 if (gamepad1.right_trigger > 0 && rotationPos <= 1) {
-                    rotationPos += gamepad1.right_trigger / 20;
+                    rotationPos += gamepad1.right_trigger / 40;
                     if (rotationPos > 1) rotationPos = 0; // Ensure lower bound
                 }
                 rotation.setPosition(rotationPos);
