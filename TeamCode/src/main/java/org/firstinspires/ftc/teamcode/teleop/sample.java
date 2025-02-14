@@ -22,7 +22,7 @@ public class sample extends LinearOpMode{
     Servo rotation, wrist, claw,hangL,hangR;
 
     public double wristPar = 0.1, wristPerp = 0.62, wristOuttake = 0.82;
-    public double clawOpen = 0.3, clawClose = 0.74;
+    public double clawOpen = 0.3, clawClose = 0.73;
     public double rotationPos = 0.46;
     public double armDown = 30;
     public double armPar = 150, armUp = 1200;
@@ -76,7 +76,7 @@ public class sample extends LinearOpMode{
         INTAKING,
         HANG
     }
-    Mode mode = Mode.HANG;
+    Mode mode = Mode.INTAKING;
 
 
 
@@ -368,28 +368,27 @@ public class sample extends LinearOpMode{
             }
             hangPrev = hangCurr;
 
-            if (firstRun) {
-                if (firstRun1) {
-                    armTarget = 1000;
-                    slideTarget = 300;
-                    wrist.setPosition(wristPerp);
-                    if (S1Motor.getCurrentPosition() < 350 && AMotor.getCurrentPosition() > 700) {
-                        armTarget = 200;
-                        firstRun1 = false;
-                    }
-                }
-                else if (!firstRun1 && AMotor.getCurrentPosition() < 300) {
-                    micro = true;
-                    rotationPos = 0.5;
-                    slideTarget = 800;
-                    mode = Mode.INTAKING;
-                    init = true;
-                    firstRun = false;
-                }
-            } else {
+//            if (firstRun) {
+//                if (firstRun1) {
+//                    armTarget = 1000;
+//                    slideTarget = 300;
+//                    wrist.setPosition(wristPerp);
+//                    if (S1Motor.getCurrentPosition() < 350 && AMotor.getCurrentPosition() > 700) {
+//                        armTarget = 200;
+//                        firstRun1 = false;
+//                    }
+//                }
+//                else if (!firstRun1 && AMotor.getCurrentPosition() < 300) {
+//                    micro = true;
+//                    rotationPos = 0.5;
+//                    slideTarget = 800;
+//                    mode = Mode.INTAKING;
+//                    init = true;
+//                    firstRun = false;
+//                }
+//            } else {
 
 
-                telemetry.addData("mode type", mode);
 
                 switch (mode) {
                     /** REST */
@@ -432,6 +431,8 @@ public class sample extends LinearOpMode{
                             wrist.setPosition(wristPar);
                             clawIsOpen = true;
                             armTempTarget = armPar;
+                            slideTarget = 1000;
+                            micro = true;
                         }
                         init = false;
 
@@ -496,7 +497,7 @@ public class sample extends LinearOpMode{
             telemetry.update();
             dashboardTelemetry.update();
 
-        }
+//        }
     }
 
 

@@ -31,11 +31,11 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 public class sampleAutonV2 extends LinearOpMode{
 
     public double wristPar = 0.1, wristPerp = 0.62, wristOuttake = 0.82;
-    public double clawOpen = 0.3, clawClose = 0.73;
+    public double clawOpen = 0.27, clawClose = 0.73;
     public double rotationPos = 0.46, rotationSpecial = 0.75;
-    public double armDown = 15;
+    public double armDown = 5;
     public double armPar = 100, armUp = 1300, armHang = 700;
-    public double slideRest = 300, slideIntaking = 600, slideOuttaking = 3000, slideHang = 800;
+    public double slideRest = 300, slideIntaking = 1000, slideOuttaking = 3000, slideHang = 800;
     public double outToRestBuffer = 800, restToOuttake = 1000;
 
     //  ARM PID
@@ -103,7 +103,7 @@ public class sampleAutonV2 extends LinearOpMode{
                 packet.put("slide", S1Motor.getCurrentPosition());
 
 //                Arm down after slide comes down
-                if (Math.abs(S1Motor.getCurrentPosition() - slideTarget) < 400) {
+                if (Math.abs(S1Motor.getCurrentPosition() - slideTarget) < 600) {
                     armTarget = armPar;
                 }
 
@@ -176,6 +176,9 @@ public class sampleAutonV2 extends LinearOpMode{
         public Action intakingDown(){
             return new ArmSlide.IntakingDown();
         }
+
+
+
 
         /** To outtaking */
         public class RestToOuttaking implements Action {
@@ -337,6 +340,18 @@ public class sampleAutonV2 extends LinearOpMode{
         public Action restCloseClaw() {
             return new IntakingSystem.RestCloseClaw();
         }
+        public class RestOpenClaw implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                rotation.setPosition(rotationPos);
+                wrist.setPosition(wristPerp);
+                claw.setPosition(clawOpen);
+                return false;
+            }
+        }
+        public Action restOpenClaw() {
+            return new IntakingSystem.RestOpenClaw();
+        }
 
         /** Open claw outtaking */
         public class OuttakingOpenClaw implements Action {
@@ -399,31 +414,31 @@ public class sampleAutonV2 extends LinearOpMode{
                 .waitSeconds(.2);
         TrajectoryActionBuilder toFirstSample = drive.actionBuilder(new Pose2d(-53,-52,Math.toRadians(45)))
                 .splineTo(new Vector2d(-48.1,-38.5),Math.toRadians(90))
-                .waitSeconds(.1);
+                .waitSeconds(.2);
         TrajectoryActionBuilder dropOffFirst = drive.actionBuilder(new Pose2d(-48.1,-38.5,Math.toRadians(90)))
                 .setReversed(true)
                 .splineTo(new Vector2d(-52,-53),Math.toRadians(229.5))
                 .waitSeconds(.2);
         TrajectoryActionBuilder toSecondSample = drive.actionBuilder(new Pose2d(-52,-53,Math.toRadians(49.5)))
                 .setReversed(false)
-                .splineToLinearHeading(new Pose2d(-64,-40.5,Math.toRadians(99)),Math.toRadians(107))
-                .waitSeconds(.1);
-        TrajectoryActionBuilder dropOffSecond = drive.actionBuilder(new Pose2d(-64,-40.5,Math.toRadians(99)))
+                .splineToLinearHeading(new Pose2d(-64.5,-40.5,Math.toRadians(99)),Math.toRadians(107))
+                .waitSeconds(.2);
+        TrajectoryActionBuilder dropOffSecond = drive.actionBuilder(new Pose2d(-64.5,-40.5,Math.toRadians(99)))
                 .setReversed(true)
                 .splineToLinearHeading(new Pose2d(-57,-49.5,Math.toRadians(48)),Math.toRadians(232))
                 .waitSeconds(.2);
         TrajectoryActionBuilder toThirdSample = drive.actionBuilder(new Pose2d(-57,-49.5,Math.toRadians(48)))
                 .setReversed(false)
-                .splineToLinearHeading(new Pose2d(-63.2,-41.5, Math.toRadians(135)), Math.toRadians(55))
-                .waitSeconds(.1);
-        TrajectoryActionBuilder dropOffThird = drive.actionBuilder(new Pose2d(-63.2,-41.5,Math.toRadians(135)))
+                .splineToLinearHeading(new Pose2d(-63.2,-42, Math.toRadians(135)), Math.toRadians(55))
+                .waitSeconds(.2);
+        TrajectoryActionBuilder dropOffThird = drive.actionBuilder(new Pose2d(-63.2,-42,Math.toRadians(135)))
                 .setReversed(true)
                 .splineToLinearHeading(new Pose2d(-59,-48.5,Math.toRadians(48)), Math.toRadians(230))
                 .waitSeconds(.2);
-        TrajectoryActionBuilder park = drive.actionBuilder(new Pose2d(-60,-48.5,Math.toRadians(48)))
+        TrajectoryActionBuilder park = drive.actionBuilder(new Pose2d(-59,-48.5,Math.toRadians(48)))
                 .setReversed(false)
-                .splineTo(new Vector2d(-30,-11),Math.toRadians(0))
-                .waitSeconds(.1);
+                .splineTo(new Vector2d(-20,0),Math.toRadians(0))
+                .waitSeconds(.2);
 
 
 
@@ -432,7 +447,20 @@ public class sampleAutonV2 extends LinearOpMode{
                 new SequentialAction(
 
                         intakingSystem.restCloseClaw(),
-                        armSlide.toRest()
+                        armSlide.toRest(),
+                        new SleepAction(1),
+                        intakingSystem.intakingOpenClaw(),
+                        new SleepAction(1),
+                        armSlide.intakingDown(),
+                        new SleepAction(1),
+                        intakingSystem.intakingCloseClaw(),
+                        new SleepAction(1),
+                        intakingSystem.restCloseClaw(),
+                        armSlide.toRest(),
+                        new SleepAction(1),
+                        intakingSystem.restOpenClaw(),
+                        new SleepAction(1),
+                        intakingSystem.restCloseClaw()
 
                 )
         );
@@ -453,11 +481,9 @@ public class sampleAutonV2 extends LinearOpMode{
                             intakingSystem.outtakingCloseClaw(),
                             new SleepAction(.2),
                             intakingSystem.outtakingOpenClaw(),
-                            new SleepAction(.3),
+                            new SleepAction(.2),
                             intakingSystem.intakingOpenClaw(),
                             armSlide.toRest(),
-                            intakingSystem.restCloseClaw(),
-
                             new ParallelAction(
                                     intakingSystem.intakingOpenClaw(),
                                     toFirstSample.build()
@@ -477,10 +503,9 @@ public class sampleAutonV2 extends LinearOpMode{
                             intakingSystem.outtakingCloseClaw(),
                             new SleepAction(.2),
                             intakingSystem.outtakingOpenClaw(),
-                            new SleepAction(.3),
+                            new SleepAction(.2),
                             intakingSystem.intakingOpenClaw(),
                             armSlide.toRest(),
-                            intakingSystem.restCloseClaw(),
 
                             new ParallelAction(
                                     intakingSystem.intakingOpenClaw(),
@@ -501,11 +526,9 @@ public class sampleAutonV2 extends LinearOpMode{
                             intakingSystem.outtakingCloseClaw(),
                             new SleepAction(.2),
                             intakingSystem.outtakingOpenClaw(),
-                            new SleepAction(.3),
+                            new SleepAction(.2),
                             intakingSystem.intakingOpenClaw(),
                             armSlide.toRest(),
-                            intakingSystem.restCloseClaw(),
-
                             new ParallelAction(
                                     intakingSystem.intakingOpenSpecial(),
                                     toThirdSample.build()
@@ -525,10 +548,12 @@ public class sampleAutonV2 extends LinearOpMode{
                             intakingSystem.outtakingCloseClaw(),
                             new SleepAction(.2),
                             intakingSystem.outtakingOpenClaw(),
-                            new SleepAction(.3),
+                            new SleepAction(.2),
                             intakingSystem.intakingOpenClaw(),
                             armSlide.toRest(),
-                            intakingSystem.restCloseClaw()
+                            park.build(),
+                            armSlide.restToIntaking(),
+                            new SleepAction(4)
 
 
                     )

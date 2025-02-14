@@ -23,26 +23,25 @@ public class specimen extends LinearOpMode{
     DcMotorEx AMotor, S1Motor, S2Motor, FL, FR, BL, BR = null;
     Servo rotation, wrist, claw;
 
-    public double wristPar = 0.1, wristPerp = 0.62, wristOuttake = 0.85;
-    public double clawOpen = 0.27, clawClose = 0.77;
+    public double wristPar = 0.1, wristPerp = 0.62, wristOuttake = 0.82;
+    public double clawOpen = 0.3, clawClose = 0.73;
     public double rotationPos = 0.46;
     public double armDown = 30;
-    public double armPar = 100, armUp = 1300;
+    public double armPar = 150, armUp = 1050;
     public int slideInterval = 15;
     public double outToRestBuffer = 800, restToOuttake = 1000;
 
     //  ARM PID
     PIDFController armPIDF = new PIDFController(0,0,0, 0);
-    static double armP = 0.007, armI = 0, armD = 0, armF = 0;
+    static double armP = 0.008, armI = 0, armD = 0.0009, armF = 0;
     static double armTarget = 0.0;
 
     //  SLIDES PID
     PIDFController slidePIDF = new PIDFController(0,0,0, 0);
-    static double slideP = 0.0034, slideI = 0, slideD = 0, slideF = 0;
-    static double slidePE = 0.008, slideIE = 0, slideDE = 0, slideFE = 0;
+    static double slideP = 0.005, slideI = 0, slideD = 0.00018, slideF = 0;
+    static double slidePE = 0.008, slideIE = 0, slideDE = 0.00018, slideFE = 0;
     static double slideTarget = 0.0;
     double slidePower = 0.0;
-
 
     boolean rightBumperPrevState = false;
     boolean hangPrev = false;
@@ -173,10 +172,10 @@ public class specimen extends LinearOpMode{
             } else {
                 //TODO trig calculation for rotation
 
-                frontLeftPower = rx / 3;
-                backLeftPower = rx / 3;
-                frontRightPower = -rx / 3;
-                backRightPower = -rx / 3;
+                frontLeftPower = rx / 2;
+                backLeftPower = rx / 2;
+                frontRightPower = -rx / 2;
+                backRightPower = -rx / 2;
 
                 FL.setPower(frontLeftPower);
                 FR.setPower(frontRightPower);
@@ -187,14 +186,14 @@ public class specimen extends LinearOpMode{
 //                        rotation.setPosition(1 - (Math.acos(x / (Math.pow(Math.pow(x, 2) + Math.pow(y, 2), 0.5))) / Math.PI));
 //                    }
 //                }
-                slideTarget += (y > 0 && slideTarget < slideMax) ? 15 * y / 1.5 : 0;
-                slideTarget += (y < 0 && slideTarget > 300) ? 15 * y / 1.5 : 0;
+                slideTarget += (y > 0 && slideTarget < slideMax) ? 30 * y / 1.5 : 0;
+                slideTarget += (y < 0 && slideTarget > 300) ? 30 * y / 1.5 : 0;
                 if (gamepad1.left_trigger > 0 && rotationPos >= 0) {
-                    rotationPos -= gamepad1.left_trigger / 80;
+                    rotationPos -= gamepad1.left_trigger / 40;
                     if (rotationPos < 0) rotationPos = 1; // Ensure upper bound
                 }
                 if (gamepad1.right_trigger > 0 && rotationPos <= 1) {
-                    rotationPos += gamepad1.right_trigger / 80;
+                    rotationPos += gamepad1.right_trigger / 40;
                     if (rotationPos > 1) rotationPos = 0; // Ensure lower bound
                 }
                 rotation.setPosition(rotationPos);
