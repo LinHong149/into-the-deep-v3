@@ -215,11 +215,11 @@ public class sample extends LinearOpMode{
                 slideTarget += (y > 0 && slideTarget < slideMax) ? 30 * y / 1.5 : 0;
                 slideTarget += (y < 0 && slideTarget > 300) ? 30 * y / 1.5 : 0;
                 if (gamepad1.left_trigger > 0 && rotationPos >= 0) {
-                    rotationPos -= gamepad1.left_trigger / 60;
+                    rotationPos -= gamepad1.left_trigger / 40;
                     if (rotationPos < 0) rotationPos = 1; // Ensure upper bound
                 }
                 if (gamepad1.right_trigger > 0 && rotationPos <= 1) {
-                    rotationPos += gamepad1.right_trigger / 60;
+                    rotationPos += gamepad1.right_trigger / 40;
                     if (rotationPos > 1) rotationPos = 0; // Ensure lower bound
                 }
                 rotation.setPosition(rotationPos);
