@@ -24,10 +24,10 @@ public class specimen extends LinearOpMode{
     Servo rotation, wrist, claw;
 
     public double wristPar = 0.1, wristPerp = 0.62, wristOuttake = 0.82;
-    public double clawOpen = 0.3, clawClose = 0.73;
+    public double clawOpen = 0.3, clawClose = 0.74;
     public double rotationPos = 0.46;
     public double armDown = 30;
-    public double armPar = 150, armUp = 1050;
+    public double armPar = 150, armUp = 1150;
     public int slideInterval = 15;
     public double outToRestBuffer = 800, restToOuttake = 1000;
 
@@ -238,8 +238,8 @@ public class specimen extends LinearOpMode{
             }
 
 //  SLIDES
-            slideTarget += (gamepad1.dpad_up && slideTarget < slideMax) ? slideInterval : 0;
-            slideTarget -= (gamepad1.dpad_down && slideTarget > 500) ? slideInterval : 0;
+            slideTarget += (gamepad1.dpad_up && slideTarget < slideMax) ? 30 : 0;
+            slideTarget -= (gamepad1.dpad_down && slideTarget > 500) ? 30 : 0;
             slideTarget = Math.min(2000, Math.max(200, slideTarget));
 
             slideExtended = slideTarget > 300;
@@ -320,7 +320,7 @@ public class specimen extends LinearOpMode{
                     if (intakeCurr && !intakePrev) {
                         micro = true;
                         rotationPos = 0.5;
-                        slideTarget = 1000;
+                        slideTarget = 700;
                         mode = Mode.INTAKING;
                         init = true;
                     }
@@ -358,10 +358,10 @@ public class specimen extends LinearOpMode{
                         wrist.setPosition(wristOuttake);
                     }
                     init = false;
-                    slideTarget += (gamepad1.left_bumper && slideTarget<slideMax) ? slideInterval : 0;
+                    slideTarget += (gamepad1.left_bumper && slideTarget<slideMax) ? 24 : 0;
 
                     if (slideOuttake && armTempTarget-AMotor.getCurrentPosition()<200){
-                        slideTarget = 750;
+                        slideTarget = 1000;
                         slideOuttake = false;
                     }
 

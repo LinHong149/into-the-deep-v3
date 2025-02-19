@@ -22,10 +22,10 @@ public class sample extends LinearOpMode{
     Servo rotation, wrist, claw,hangL,hangR;
 
     public double wristPar = 0.1, wristPerp = 0.62, wristOuttake = 0.82;
-    public double clawOpen = 0.3, clawClose = 0.73;
+    public double clawOpen = 0.3, clawClose = 0.74;
     public double rotationPos = 0.46;
     public double armDown = 30;
-    public double armPar = 150, armUp = 1200;
+    public double armPar = 150, armUp = 1250;
     public int slideInterval = 15;
     public double outToRestBuffer = 800, restToOuttake = 1000;
 
