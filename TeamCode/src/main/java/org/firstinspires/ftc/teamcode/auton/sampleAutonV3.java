@@ -33,7 +33,7 @@ public class sampleAutonV3 extends LinearOpMode{
     public double wristPar = 0.1, wristPerp = 0.62, wristOuttake = 0.82;
     public double clawOpen = 0.27, clawClose = 0.74;
     public double rotationPos = 0.46, rotationSpecial = 0.75;
-    public double armDown = 5;
+    public double armDown = -10;
     public double armPar = 125, armUp = 1300, armHang = 700;
     public double slideRest = 300, slideIntaking = 1000, slideOuttaking = 3000, slideHang = 800;
     public double outToRestBuffer = 800, restToOuttake = 1000;
@@ -511,9 +511,9 @@ public class sampleAutonV3 extends LinearOpMode{
 
 
         TrajectoryActionBuilder dropOffPreload = drive.actionBuilder(initialPose)
-                .splineToLinearHeading(new Pose2d(-55, -54, Math.toRadians(45)), Math.toRadians(261))
+                .splineToLinearHeading(new Pose2d(-54.5, -53.5, Math.toRadians(45)), Math.toRadians(261))
                 .waitSeconds(.2);
-        TrajectoryActionBuilder toFirstSample = drive.actionBuilder(new Pose2d(-55,-54,Math.toRadians(45)))
+        TrajectoryActionBuilder toFirstSample = drive.actionBuilder(new Pose2d(-54.5,-53.5,Math.toRadians(45)))
                 .splineTo(new Vector2d(-48.1,-38.5),Math.toRadians(90))
                 .waitSeconds(.2);
         TrajectoryActionBuilder dropOffFirst = drive.actionBuilder(new Pose2d(-48.1,-38.5,Math.toRadians(90)))
@@ -526,29 +526,29 @@ public class sampleAutonV3 extends LinearOpMode{
                 .waitSeconds(.2);
         TrajectoryActionBuilder dropOffSecond = drive.actionBuilder(new Pose2d(-61,-40.5,Math.toRadians(99)))
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(-57.5,-50.5,Math.toRadians(48)),Math.toRadians(232))
+                .splineToLinearHeading(new Pose2d(-55.5,-50.5,Math.toRadians(48)),Math.toRadians(232))
                 .waitSeconds(.2);
-        TrajectoryActionBuilder toThirdSample = drive.actionBuilder(new Pose2d(-57.5,-50.5,Math.toRadians(48)))
+        TrajectoryActionBuilder toThirdSample = drive.actionBuilder(new Pose2d(-55.5,-50.5,Math.toRadians(48)))
                 .setReversed(false)
                 .splineToLinearHeading(new Pose2d(-62,-40, Math.toRadians(135)), Math.toRadians(55))
                 .waitSeconds(.2);
         TrajectoryActionBuilder dropOffThird = drive.actionBuilder(new Pose2d(-62,-40,Math.toRadians(135)))
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(-57.5,-50,Math.toRadians(48)), Math.toRadians(230))
+                .splineToLinearHeading(new Pose2d(-57,-49,Math.toRadians(48)), Math.toRadians(230))
                 .waitSeconds(.2);
 
-        TrajectoryActionBuilder sub = drive.actionBuilder(new Pose2d(-57.5,-50,Math.toRadians(48)))
+        TrajectoryActionBuilder sub = drive.actionBuilder(new Pose2d(-57,-49,Math.toRadians(48)))
                 .setReversed(false)
-                .splineToLinearHeading(new Pose2d(-19, -2,Math.toRadians(0)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(-19, -4,Math.toRadians(0)),Math.toRadians(0))
                 .waitSeconds(.2);
-        TrajectoryActionBuilder dropOffSub = drive.actionBuilder(new Pose2d(-19,-2,Math.toRadians(0)))
+        TrajectoryActionBuilder dropOffSub = drive.actionBuilder(new Pose2d(-19,-4,Math.toRadians(0)))
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(-59,-53,Math.toRadians(45)),Math.toRadians(225))
+                .splineToLinearHeading(new Pose2d(-60,-52,Math.toRadians(45)),Math.toRadians(225))
                 .waitSeconds(.2);
 
-        TrajectoryActionBuilder sub1 = drive.actionBuilder(new Pose2d(-59,-49,Math.toRadians(45)))
+        TrajectoryActionBuilder sub1 = drive.actionBuilder(new Pose2d(-61,-53,Math.toRadians(45)))
                 .setReversed(false)
-                .splineToLinearHeading(new Pose2d(-19,-5,Math.toRadians(0)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(-19,-2,Math.toRadians(0)),Math.toRadians(0))
                 .waitSeconds(.2);
         TrajectoryActionBuilder dropOffSub1 = drive.actionBuilder(new Pose2d(-19,-5,Math.toRadians(0)))
                 .setReversed(true)
@@ -759,8 +759,9 @@ public class sampleAutonV3 extends LinearOpMode{
                             intakingSystem.intakingOpenClaw(),
                             new ParallelAction(
                                     armSlide.toRest(),
-                                    sub.build()
+                                    sub1.build()
                             ),
+                            armSlide.restToIntaking()
 
 
 //
@@ -794,9 +795,6 @@ public class sampleAutonV3 extends LinearOpMode{
 //                            ),
 
 
-
-                            armSlide.restToIntaking(),
-                            new SleepAction(4)
 
                     )
             );
