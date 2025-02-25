@@ -33,7 +33,7 @@ public class specimen extends LinearOpMode{
 
     //  ARM PID
     PIDFController armPIDF = new PIDFController(0,0,0, 0);
-    static double armP = 0.008, armI = 0, armD = 0.0009, armF = 0;
+    static double armP = 0.008, armI = 0, armD = 0.0007, armF = 0;
     static double armTarget = 0.0;
 
     //  SLIDES PID
@@ -177,10 +177,11 @@ public class specimen extends LinearOpMode{
                 frontRightPower = -rx / 2;
                 backRightPower = -rx / 2;
 
-                FL.setPower(frontLeftPower);
-                FR.setPower(frontRightPower);
-                BL.setPower(backLeftPower);
-                BR.setPower(backRightPower);
+                double denom = Math.max(Math.abs(x) + Math.abs(rx), 1);
+                FL.setPower((x + rx / 2) / denom);
+                FR.setPower((-x - rx / 2) / denom);
+                BL.setPower((-x + rx / 2) / denom);
+                BR.setPower((x - rx / 2) / denom);
 //                if (x!= 0) {
 //                    if (y>=0) {
 //                        rotation.setPosition(1 - (Math.acos(x / (Math.pow(Math.pow(x, 2) + Math.pow(y, 2), 0.5))) / Math.PI));
@@ -361,7 +362,7 @@ public class specimen extends LinearOpMode{
                     slideTarget += (gamepad1.left_bumper && slideTarget<slideMax) ? 24 : 0;
 
                     if (slideOuttake && armTempTarget-AMotor.getCurrentPosition()<200){
-                        slideTarget = 1000;
+                        slideTarget = 850;
                         slideOuttake = false;
                     }
 

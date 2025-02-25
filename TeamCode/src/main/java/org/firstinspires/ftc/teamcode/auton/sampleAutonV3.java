@@ -45,7 +45,7 @@ public class sampleAutonV3 extends LinearOpMode{
     public boolean rightPrev = false, leftPrev = false,upPrev = false,downPrev = false;
     //  ARM PID
     PIDFController armPIDF = new PIDFController(0,0,0, 0);
-    double armP = 0.008, armI = 0, armD = 0.0009, armF = 0;
+    double armP = 0.008, armI = 0, armD = 0.0007, armF = 0;
     double armTarget = 0.0;
 
     //  SLIDES PID
@@ -135,7 +135,7 @@ public class sampleAutonV3 extends LinearOpMode{
             public boolean run(@NonNull TelemetryPacket packet) {
                 mode = Mode.INTAKING;
                 slideTarget = slideIntaking;
-                armTarget = armPar;
+                armTarget = armPar+575;
 
 //                PID
                 AMotor.setPower(armPIDF(armTarget, AMotor));
@@ -171,7 +171,7 @@ public class sampleAutonV3 extends LinearOpMode{
                 armTarget = armDown;
 
                 AMotor.setPower(armPIDF(armTarget,AMotor));
-                if (Math.abs(AMotor.getCurrentPosition()-armTarget)<20){
+                if (Math.abs(AMotor.getCurrentPosition()-armTarget)<10){
                     return false;
                 }else{
                     return true;
@@ -511,44 +511,44 @@ public class sampleAutonV3 extends LinearOpMode{
 
 
         TrajectoryActionBuilder dropOffPreload = drive.actionBuilder(initialPose)
-                .splineToLinearHeading(new Pose2d(-54.5, -53.5, Math.toRadians(45)), Math.toRadians(261))
+                .splineToLinearHeading(new Pose2d(-54, -53, Math.toRadians(45)), Math.toRadians(261))
                 .waitSeconds(.2);
-        TrajectoryActionBuilder toFirstSample = drive.actionBuilder(new Pose2d(-54.5,-53.5,Math.toRadians(45)))
-                .splineTo(new Vector2d(-48.1,-38.5),Math.toRadians(90))
+        TrajectoryActionBuilder toFirstSample = drive.actionBuilder(new Pose2d(-54,-53,Math.toRadians(45)))
+                .splineTo(new Vector2d(-48,-38.5),Math.toRadians(90))
                 .waitSeconds(.2);
-        TrajectoryActionBuilder dropOffFirst = drive.actionBuilder(new Pose2d(-48.1,-38.5,Math.toRadians(90)))
+        TrajectoryActionBuilder dropOffFirst = drive.actionBuilder(new Pose2d(-48,-38.5,Math.toRadians(90)))
                 .setReversed(true)
-                .splineTo(new Vector2d(-53,-54),Math.toRadians(229.5))
+                .splineTo(new Vector2d(-55,-53),Math.toRadians(229.5))
                 .waitSeconds(.2);
-        TrajectoryActionBuilder toSecondSample = drive.actionBuilder(new Pose2d(-53,-54,Math.toRadians(49.5)))
+        TrajectoryActionBuilder toSecondSample = drive.actionBuilder(new Pose2d(-55,-53,Math.toRadians(49.5)))
                 .setReversed(false)
-                .splineToLinearHeading(new Pose2d(-61,-40.5,Math.toRadians(99)),Math.toRadians(107))
+                .splineToLinearHeading(new Pose2d(-60.5,-39.3,Math.toRadians(100)),Math.toRadians(107))
                 .waitSeconds(.2);
-        TrajectoryActionBuilder dropOffSecond = drive.actionBuilder(new Pose2d(-61,-40.5,Math.toRadians(99)))
+        TrajectoryActionBuilder dropOffSecond = drive.actionBuilder(new Pose2d(-60.5,-39.3,Math.toRadians(100)))
                 .setReversed(true)
                 .splineToLinearHeading(new Pose2d(-55.5,-50.5,Math.toRadians(48)),Math.toRadians(232))
                 .waitSeconds(.2);
         TrajectoryActionBuilder toThirdSample = drive.actionBuilder(new Pose2d(-55.5,-50.5,Math.toRadians(48)))
                 .setReversed(false)
-                .splineToLinearHeading(new Pose2d(-62,-40, Math.toRadians(135)), Math.toRadians(55))
+                .splineToLinearHeading(new Pose2d(-60.5,-40, Math.toRadians(135)), Math.toRadians(55))
                 .waitSeconds(.2);
-        TrajectoryActionBuilder dropOffThird = drive.actionBuilder(new Pose2d(-62,-40,Math.toRadians(135)))
+        TrajectoryActionBuilder dropOffThird = drive.actionBuilder(new Pose2d(-60.5,-40,Math.toRadians(135)))
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(-57,-49,Math.toRadians(48)), Math.toRadians(230))
+                .splineToLinearHeading(new Pose2d(-59,-47,Math.toRadians(48)), Math.toRadians(230))
                 .waitSeconds(.2);
 
-        TrajectoryActionBuilder sub = drive.actionBuilder(new Pose2d(-57,-49,Math.toRadians(48)))
+        TrajectoryActionBuilder sub = drive.actionBuilder(new Pose2d(-59,-47,Math.toRadians(48)))
                 .setReversed(false)
-                .splineToLinearHeading(new Pose2d(-19, -4,Math.toRadians(0)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(-19, 0,Math.toRadians(0)),Math.toRadians(0))
                 .waitSeconds(.2);
-        TrajectoryActionBuilder dropOffSub = drive.actionBuilder(new Pose2d(-19,-4,Math.toRadians(0)))
+        TrajectoryActionBuilder dropOffSub = drive.actionBuilder(new Pose2d(-19,0,Math.toRadians(0)))
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(-60,-52,Math.toRadians(45)),Math.toRadians(225))
+                .splineToLinearHeading(new Pose2d(-60,-45,Math.toRadians(45)),Math.toRadians(225))
                 .waitSeconds(.2);
 
-        TrajectoryActionBuilder sub1 = drive.actionBuilder(new Pose2d(-61,-53,Math.toRadians(45)))
+        TrajectoryActionBuilder sub1 = drive.actionBuilder(new Pose2d(-60,-45,Math.toRadians(45)))
                 .setReversed(false)
-                .splineToLinearHeading(new Pose2d(-19,-2,Math.toRadians(0)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(-18,-1,Math.toRadians(0)),Math.toRadians(0))
                 .waitSeconds(.2);
         TrajectoryActionBuilder dropOffSub1 = drive.actionBuilder(new Pose2d(-19,-5,Math.toRadians(0)))
                 .setReversed(true)
@@ -760,8 +760,7 @@ public class sampleAutonV3 extends LinearOpMode{
                             new ParallelAction(
                                     armSlide.toRest(),
                                     sub1.build()
-                            ),
-                            armSlide.restToIntaking()
+                            )
 
 
 //

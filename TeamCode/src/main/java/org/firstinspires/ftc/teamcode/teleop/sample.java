@@ -23,14 +23,14 @@ public class sample extends LinearOpMode{
     public double wristPar = 0.1, wristPerp = 0.62, wristOuttake = 0.82;
     public double clawOpen = 0.3, clawClose = 0.74;
     public double rotationPos = 0.46;
-    public double armDown = 30;
+    public double armDown = 10;
     public double armPar = 150, armUp = 1300;
     public int slideInterval = 15;
     public double outToRestBuffer = 800, restToOuttake = 1000;
 
     //  ARM PID
     PIDFController armPIDF = new PIDFController(0,0,0, 0);
-    static double armP = 0.008, armI = 0, armD = 0.0009, armF = 0;
+    static double armP = 0.008, armI = 0, armD = 0.0007, armF = 0;
     static double armTarget = 0.0;
 
     //  SLIDES PID
@@ -75,7 +75,7 @@ public class sample extends LinearOpMode{
         INTAKING,
         HANG
     }
-    Mode mode = Mode.INTAKING;
+    Mode mode = Mode.REST;
 
 
 
