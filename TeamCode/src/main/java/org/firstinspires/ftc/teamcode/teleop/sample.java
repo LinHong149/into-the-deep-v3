@@ -24,13 +24,13 @@ public class sample extends LinearOpMode{
     public double clawOpen = 0.3, clawClose = 0.74;
     public double rotationPos = 0.46;
     public double armDown = 10;
-    public double armPar = 150, armUp = 1300;
+    public double armPar = 80, armUp = 900;
     public int slideInterval = 15;
-    public double outToRestBuffer = 800, restToOuttake = 1000;
+    public double outToRestBuffer = 600, restToOuttake = 1000;
 
     //  ARM PID
     PIDFController armPIDF = new PIDFController(0,0,0, 0);
-    static double armP = 0.008, armI = 0, armD = 0.0007, armF = 0;
+    static double armP = 0.02, armI = 0, armD = 0.001, armF = 0;
     static double armTarget = 0.0;
 
     //  SLIDES PID
@@ -66,7 +66,7 @@ public class sample extends LinearOpMode{
 
     double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
     double armTempTarget = armPar;
-    double armMax = 1350;
+    double armMax = 900;
     double slideMax = 2900;
 
     public enum Mode {
@@ -277,7 +277,7 @@ public class sample extends LinearOpMode{
 
             armTempTarget += (gamepad1.left_trigger > 0 && !micro) ? 3 : 0;
             armTempTarget -= (gamepad1.right_trigger > 0 && !micro) ? 3 : 0;
-            armTempTarget = Math.min(1350, Math.max(0, armTempTarget));
+            armTempTarget = Math.min(900, Math.max(0, armTempTarget));
 
 
 //             /\_/\
@@ -468,7 +468,7 @@ public class sample extends LinearOpMode{
                 case HANG:
                     if (init) {
                         clawIsOpen = false;
-                        armTarget = 700;
+                        armTarget = 500;
                         slideTarget = 800;
                         wrist.setPosition(wristPar);
                         rotation.setPosition(0.5);

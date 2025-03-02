@@ -34,7 +34,7 @@ public class sampleAutonV3 extends LinearOpMode{
     public double clawOpen = 0.27, clawClose = 0.74;
     public double rotationPos = 0.46, rotationSpecial = 0.75;
     public double armDown = -10;
-    public double armPar = 125, armUp = 1300, armHang = 700;
+    public double armPar = 125, armUp = 900, armHang = 700;
     public double slideRest = 300, slideIntaking = 1000, slideOuttaking = 3000, slideHang = 800;
     public double outToRestBuffer = 800, restToOuttake = 1000;
     public double slideInput=0,rotationInput =0.5;
@@ -45,7 +45,7 @@ public class sampleAutonV3 extends LinearOpMode{
     public boolean rightPrev = false, leftPrev = false,upPrev = false,downPrev = false;
     //  ARM PID
     PIDFController armPIDF = new PIDFController(0,0,0, 0);
-    double armP = 0.008, armI = 0, armD = 0.0007, armF = 0;
+    double armP = 0.02, armI = 0, armD = 0.001, armF = 0;
     double armTarget = 0.0;
 
     //  SLIDES PID

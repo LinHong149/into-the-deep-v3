@@ -26,14 +26,14 @@ public class specimen extends LinearOpMode{
     public double wristPar = 0.1, wristPerp = 0.62, wristOuttake = 0.82;
     public double clawOpen = 0.3, clawClose = 0.74;
     public double rotationPos = 0.46;
-    public double armDown = 30;
-    public double armPar = 150, armUp = 1150;
+    public double armDown = 10;
+    public double armPar = 80, armUp = 750;
     public int slideInterval = 15;
-    public double outToRestBuffer = 800, restToOuttake = 1000;
+    public double outToRestBuffer = 400, restToOuttake = 1000;
 
     //  ARM PID
     PIDFController armPIDF = new PIDFController(0,0,0, 0);
-    static double armP = 0.008, armI = 0, armD = 0.0007, armF = 0;
+    static double armP = 0.02, armI = 0, armD = 0.001, armF = 0;
     static double armTarget = 0.0;
 
     //  SLIDES PID
@@ -58,7 +58,7 @@ public class specimen extends LinearOpMode{
 
     double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
     double armTempTarget = armPar;
-    double armMax = 1350;
+    double armMax = 900;
     double slideMax = 1500;
 
     public enum Mode {
