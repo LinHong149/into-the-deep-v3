@@ -34,7 +34,7 @@ public class sampleAutonV3 extends LinearOpMode{
     public double clawOpen = 0.27, clawClose = 0.74;
     public double rotationPos = 0.46, rotationSpecial = 0.75;
     public double armDown = -10;
-    public double armPar = 125, armUp = 900, armHang = 700;
+    public double armPar = 80, armUp = 900, armHang = 500;
     public double slideRest = 300, slideIntaking = 1000, slideOuttaking = 3000, slideHang = 800;
     public double outToRestBuffer = 800, restToOuttake = 1000;
     public double slideInput=0,rotationInput =0.5;
@@ -135,7 +135,7 @@ public class sampleAutonV3 extends LinearOpMode{
             public boolean run(@NonNull TelemetryPacket packet) {
                 mode = Mode.INTAKING;
                 slideTarget = slideIntaking;
-                armTarget = armPar+575;
+                armTarget = armPar;
 
 //                PID
                 AMotor.setPower(armPIDF(armTarget, AMotor));
