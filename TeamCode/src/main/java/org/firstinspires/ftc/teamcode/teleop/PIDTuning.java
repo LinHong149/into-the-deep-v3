@@ -19,7 +19,7 @@ public class PIDTuning extends LinearOpMode {
 
     public double clawROpen = 0.25, clawRClose = 0.75;
     PIDFController armPIDF = new PIDFController(0,0,0, 0);
-    public static double armP = 0, armI = 0, armD = 0, armF = 0;
+    public static double armP = 0.02, armI = 0, armD = 0.001, armF = 0;
     //    extended PID
     public static double armTarget = 0.0;
     public double armPower = 0.0;
@@ -72,9 +72,6 @@ public class PIDTuning extends LinearOpMode {
         S2Motor = hardwareMap.get(DcMotorEx.class, "S2Motor");
         AMotor = hardwareMap.get(DcMotorEx.class, "AMotor");
 
-        S1Motor.setDirection(DcMotorEx.Direction.REVERSE);
-        S2Motor.setDirection(DcMotorEx.Direction.REVERSE);
-        AMotor.setDirection(DcMotorEx.Direction.REVERSE);
 
         S1Motor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         S2Motor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
@@ -101,7 +98,7 @@ public class PIDTuning extends LinearOpMode {
 
         while(opModeIsActive()){
 
-            armTarget = Math.max(200, Math.min(1350, armTarget));
+            armTarget = Math.max(10, Math.min(1000, armTarget));
             slideTarget = Math.max(200, Math.min(3500, slideTarget));
 
             armPower = armPIDF(armTarget, AMotor);
